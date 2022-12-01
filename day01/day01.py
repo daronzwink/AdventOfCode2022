@@ -14,7 +14,7 @@ with open("day01/day01.dat", "r") as fileData:
     for line in fileData:
 
         # Increment elf_id if blank line and reset total calorie count
-        if elf_id == 0 or line.strip() == "":
+        if elf_id == 0 or len(line.strip()) == 0:
 
             # Increment the elf id
             elf_id += 1
@@ -25,6 +25,7 @@ with open("day01/day01.dat", "r") as fileData:
             # Update dictionary for current elf with total calorie count
             elves[elf_id] += int(line.strip())
 
+    # Generate sorted list of elf calorie totals, with largest first
     elf_totals = sorted([elves[x] for x in elves], reverse=True)
 
     # Get Part 1 Answer
