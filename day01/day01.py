@@ -4,28 +4,34 @@ import time
 start_time = time.time()
 
 # Initialize
-depths = []
 part1_answer = 0
 part2_answer = 0
+elf_id = 0
+elves = {}
 
 # Process file
 with open("day01/day01.dat", "r") as fileData:
-    for depth in fileData:
+    for line in fileData:
 
-        # Add depth to list of depts
-        depths.append(int(depth))
+        # Increment elf_id if blank line and reset total calorie count
+        if elf_id == 0 or line.strip() == "":
 
-        # Check to see if current depth has increased from previous depth (Part 1)
-        if len(depths) > 1 and depths[-2] < depths[-1]:
-            part1_answer += 1
+            # Increment the elf id
+            elf_id += 1
+            elves[elf_id] = 0
 
-        # Check to see if sum of last three depths has increased from the sum of the
-        # previous three depths (Part 2)
-        if len(depths) > 3:
-            depths_last_set = sum([depths[-1], depths[-2], depths[-3]])
-            depths_previous_set = sum([depths[-2], depths[-3], depths[-4]])
-            if depths_last_set > depths_previous_set:
-                part2_answer += 1
+        else:
+
+            # Update dictionary for current elf with total calorie count
+            elves[elf_id] += int(line.strip())
+
+    elf_totals = sorted([elves[x] for x in elves], reverse=True)
+
+    # Get Part 1 Answer
+    part1_answer = max(elf_totals)
+
+    # Get Part 2 Answer
+    part2_answer = sum(elf_totals[:3])
 
 # Print Answers
 print("Answer (Part 1): " + str(part1_answer))
